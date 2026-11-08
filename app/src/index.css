@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@import "@fontsource-variable/fraunces";
+@import "@fontsource-variable/work-sans";
+
+@theme {
+  --font-sans: "Work Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+}
+
+.font-display {
+  font-feature-settings: "ss02" 1;
+}

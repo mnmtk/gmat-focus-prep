@@ -1,0 +1,69 @@
+import {
+  ShoppingCart,
+  GraduationCap,
+  Target,
+  BookOpen,
+  BarChart3,
+  PenLine,
+  FolderOpen,
+  Timer,
+  RotateCcw,
+  Calendar,
+  BedDouble,
+  IdCard,
+  CheckCircle2,
+  Lightbulb,
+  MapPin,
+  FlaskConical,
+  XCircle,
+  AlertTriangle,
+  Ban,
+  Check,
+  Plus,
+  Trash2,
+  FileSpreadsheet,
+  FilePlus,
+  RefreshCw,
+  Unlink,
+  type LucideIcon,
+} from 'lucide-react'
+
+export const LESSON_ICONS: Record<string, LucideIcon> = {
+  cart: ShoppingCart,
+  course: GraduationCap,
+  target: Target,
+  book: BookOpen,
+  chart: BarChart3,
+  pen: PenLine,
+  folder: FolderOpen,
+  timer: Timer,
+  redo: RotateCcw,
+  calendar: Calendar,
+  bed: BedDouble,
+  id: IdCard,
+  check: CheckCircle2,
+}
+
+export function LessonIcon({ name, className }: { name: string; className?: string }) {
+  const Icon = LESSON_ICONS[name]
+  if (!Icon) return null
+  return <Icon className={className} strokeWidth={2} />
+}
+
+export {
+  Lightbulb,
+  MapPin,
+  FlaskConical,
+  XCircle,
+  AlertTriangle,
+  Ban,
+  Check,
+  CheckCircle2,
+  Plus,
+  Trash2,
+  FileSpreadsheet,
+  FilePlus,
+  RefreshCw,
+  Unlink,
+  FolderOpen,
+}
