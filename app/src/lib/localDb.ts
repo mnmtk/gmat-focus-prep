@@ -16,7 +16,7 @@ const SHEET = {
 
 const ERROR_COLUMNS = ['Date', 'Section', 'Topic', 'Question', 'Reason', 'Notes', 'Redo Date', 'Resolved'] as const
 const SECTIONS: ErrorSection[] = ['Quant', 'Verbal', 'Data Insights']
-const REASONS: ErrorReason[] = ['Content gap', 'Careless error', 'Timing error']
+const REASONS: ErrorReason[] = ['Content gap', 'Misread', 'Careless error', 'Timing error']
 
 function newId() {
   return `e${Date.now()}${Math.random().toString(36).slice(2, 7)}`

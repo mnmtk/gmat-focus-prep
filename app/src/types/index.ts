@@ -45,7 +45,7 @@ export interface ProgressState {
 }
 
 export type ErrorSection = 'Quant' | 'Verbal' | 'Data Insights'
-export type ErrorReason = 'Content gap' | 'Careless error' | 'Timing error'
+export type ErrorReason = 'Content gap' | 'Misread' | 'Careless error' | 'Timing error'
 
 export interface ErrorLogEntry {
   id: string
@@ -57,4 +57,47 @@ export interface ErrorLogEntry {
   notes: string
   redoDate: string
   resolved: boolean
+}
+
+export interface RememberCard {
+  id: string
+  title: string
+  why?: string
+  notes?: string[]
+  columns: string[]
+  colWidths?: string[]
+  testColumns?: number[]
+  groups: string[][][]
+}
+
+export interface ScoreSnapshot {
+  date: string
+  total: number
+  totalPercentile: number
+  quant: number
+  quantPercentile: number
+  verbal: number
+  verbalPercentile: number
+  di: number
+  diPercentile: number
+  note?: string
+}
+
+export interface SchoolDeadline {
+  round: string
+  due: string
+  decision?: string
+}
+
+export interface TargetSchool {
+  id: string
+  name: string
+  program: string
+  city: string
+  cycleNote: string
+  deadlines: SchoolDeadline[]
+  profile: string
+  values: string[]
+  workToDo: string[]
+  officialLink: { label: string; href: string }
 }

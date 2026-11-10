@@ -8,7 +8,7 @@ export const localLessonLinks: Record<
   string,
   { label: string; href: string } | { label: string; href: string }[]
 > = {
-  // 'm2-4': { label: 'open folder', href: 'file:///path/to/your/Manhattan' },
+  // 'm2-8': { label: 'open folder', href: 'file:///path/to/your/Manhattan' },
   // 'm3-3': { label: 'open', href: 'file:///path/to/your/PowerScore_CR_Bible.pdf' },
   // 'm3-4': [
   //   { label: 'CR', href: 'file:///path/to/your/06-Critical-Reasoning.pdf' },
@@ -27,3 +27,18 @@ export const localBrowseLinks: { label: string; href: string }[] = [
 export const localObsoleteLinks: { label: string; href: string }[] = [
   // { label: 'Old Sentence Correction guide', href: 'file:///path/to/your/sc-guide.pdf' },
 ]
+
+// Your most recent official practice exam score, shown on the dashboard as
+// baseline-vs-target. Pull these numbers straight off the GMAC score card.
+// export const localBaseline = {
+//   date: '2026-01-01',
+//   total: 605,
+//   totalPercentile: 75,
+//   quant: 80,
+//   quantPercentile: 70,
+//   verbal: 80,
+//   verbalPercentile: 60,
+//   di: 78,
+//   diPercentile: 70,
+//   note: 'Errors clustered at the end of every section — pacing, not content.',
+// }

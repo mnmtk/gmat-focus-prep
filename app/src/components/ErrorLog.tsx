@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { ErrorLogEntry, ErrorReason, ErrorSection } from '../types'
 import { Plus, Trash2, FileSpreadsheet } from '../lib/icons'
+import { addDays, localDate, FIRST_REDO_DAYS } from '../lib/dates'
 
 interface Props {
   entries: ErrorLogEntry[]
@@ -11,21 +12,24 @@ interface Props {
 }
 
 const SECTIONS: ErrorSection[] = ['Quant', 'Verbal', 'Data Insights']
-const REASONS: ErrorReason[] = ['Content gap', 'Careless error', 'Timing error']
+const REASONS: ErrorReason[] = ['Content gap', 'Misread', 'Careless error', 'Timing error']
 
 const REASON_STYLE: Record<ErrorReason, string> = {
   'Content gap': 'bg-sky-50 text-sky-700 dark:bg-sky-500/10 dark:text-sky-400',
+  Misread: 'bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-400',
   'Careless error': 'bg-rose-50 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400',
   'Timing error': 'bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400',
 }
 
-function today() {
-  return new Date().toISOString().slice(0, 10)
+const SECTION_STYLE: Record<ErrorSection, string> = {
+  Quant: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400',
+  Verbal: 'bg-orange-50 text-orange-700 dark:bg-orange-500/10 dark:text-orange-400',
+  'Data Insights': 'bg-cyan-50 text-cyan-700 dark:bg-cyan-500/10 dark:text-cyan-400',
 }
 
 function emptyForm(): Omit<ErrorLogEntry, 'id'> {
   return {
-    date: today(),
+    date: localDate(),
     section: 'Quant',
     topic: '',
     question: '',
@@ -39,19 +43,22 @@ function emptyForm(): Omit<ErrorLogEntry, 'id'> {
 export function ErrorLog({ entries, connected, onAdd, onUpdate, onRemove }: Props) {
   const [form, setForm] = useState(emptyForm)
   const [filter, setFilter] = useState<ErrorReason | 'all'>('all')
+  const [sectionFilter, setSectionFilter] = useState<ErrorSection | 'all'>('all')
+
+  const inSection = sectionFilter === 'all' ? entries : entries.filter((e) => e.section === sectionFilter)
 
   const counts = REASONS.reduce<Record<ErrorReason, number>>(
-    (acc, r) => ({ ...acc, [r]: entries.filter((e) => e.reason === r && !e.resolved).length }),
-    { 'Content gap': 0, 'Careless error': 0, 'Timing error': 0 },
+    (acc, r) => ({ ...acc, [r]: inSection.filter((e) => e.reason === r && !e.resolved).length }),
+    { 'Content gap': 0, Misread: 0, 'Careless error': 0, 'Timing error': 0 },
   )
 
-  const visible = filter === 'all' ? entries : entries.filter((e) => e.reason === filter)
+  const visible = filter === 'all' ? inSection : inSection.filter((e) => e.reason === filter)
 
   function submit(e: React.FormEvent) {
     e.preventDefault()
     if (!connected || !form.question.trim() || !form.topic.trim()) return
-    onAdd(form)
-    setForm(emptyForm())
+    onAdd({ ...form, redoDate: form.redoDate || addDays(form.date, FIRST_REDO_DAYS) })
+    setForm((f) => ({ ...emptyForm(), date: f.date, section: f.section }))
   }
 
   return (
@@ -68,11 +75,32 @@ export function ErrorLog({ entries, connected, onAdd, onUpdate, onRemove }: Prop
         </div>
       </div>
       <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
-        Tag every miss as content gap, careless error, or timing error — the fix is different for each.
+        Tag every miss as content gap, misread, careless error, or timing error — the fix is different for each.
         {connected
           ? " Every submit writes straight to your local .xlsx file — open it in Excel any time, it'll already be there."
           : ' Connect a file above to start logging.'}
       </p>
+
+      <div className="mb-3 flex flex-wrap gap-1.5" role="tablist" aria-label="Filter by section">
+        {(['all', ...SECTIONS] as const).map((s) => {
+          const n = s === 'all' ? entries.length : entries.filter((e) => e.section === s).length
+          return (
+            <button
+              key={s}
+              role="tab"
+              aria-selected={sectionFilter === s}
+              onClick={() => setSectionFilter(s)}
+              className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                sectionFilter === s
+                  ? 'bg-violet-600 text-white dark:bg-violet-500'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10'
+              }`}
+            >
+              {s === 'all' ? 'All sections' : s} <span className="tabular-nums opacity-70">{n}</span>
+            </button>
+          )
+        })}
+      </div>
 
       <div className="mb-5 flex flex-wrap divide-x divide-slate-200 rounded-lg border border-slate-200 dark:divide-white/10 dark:border-white/10">
         {REASONS.map((r) => (
@@ -154,7 +182,7 @@ export function ErrorLog({ entries, connected, onAdd, onUpdate, onRemove }: Prop
             />
           </label>
           <label className="flex flex-col gap-1 text-xs font-medium text-slate-500 dark:text-slate-400">
-            Redo date
+            Redo date <span className="font-normal text-slate-400">(blank = in {FIRST_REDO_DAYS} days)</span>
             <input
               type="date"
               value={form.redoDate}
@@ -212,7 +240,9 @@ export function ErrorLog({ entries, connected, onAdd, onUpdate, onRemove }: Prop
                   <td className="py-2 pr-3 whitespace-nowrap text-slate-500 dark:text-slate-400">{e.date}</td>
                   <td className="py-2 pr-3">
                     <div className="font-medium text-slate-800 dark:text-slate-100">{e.topic}</div>
-                    <div className="text-xs text-slate-400 dark:text-slate-500">{e.section}</div>
+                    <span className={`mt-0.5 inline-block rounded px-1.5 py-px text-[11px] font-medium ${SECTION_STYLE[e.section]}`}>
+                      {e.section}
+                    </span>
                   </td>
                   <td className="py-2 pr-3 max-w-[260px]">
                     <div className="text-slate-700 dark:text-slate-200">{e.question}</div>

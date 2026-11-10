@@ -1,10 +1,14 @@
 import type { Module, ProgressState } from '../types'
 import { Check } from '../lib/icons'
 
+export type View = 'course' | 'timer' | 'remember' | 'error-log' | 'schools' | 'resources'
+
 interface Props {
   modules: Module[]
   progress: ProgressState
-  activeId: string
+  view: View
+  openModuleId: string
+  onNavigate: (target: string) => void
 }
 
 function moduleCompletion(module: Module, progress: ProgressState) {
@@ -15,31 +19,38 @@ function moduleCompletion(module: Module, progress: ProgressState) {
 }
 
 function NavRow({
-  href,
+  target,
   active,
   complete,
   mark,
   title,
   sub,
+  onNavigate,
 }: {
-  href: string
+  target: string
   active: boolean
   complete: boolean
   mark: string
   title: string
-  sub: string
+  sub?: string
+  onNavigate: (target: string) => void
 }) {
   return (
     <a
-      href={href}
-      className={`flex items-baseline gap-3 border-l-2 px-3 py-2.5 transition-colors ${
+      href={`#${target}`}
+      onClick={(e) => {
+        e.preventDefault()
+        onNavigate(target)
+      }}
+      aria-current={active ? 'page' : undefined}
+      className={`flex items-baseline gap-3 border-l-2 px-3 py-2 transition-colors ${
         active
           ? 'border-violet-600 bg-violet-50/70 dark:border-violet-400 dark:bg-violet-500/10'
           : 'border-transparent hover:bg-violet-50/40 dark:hover:bg-white/5'
       }`}
     >
       <span
-        className={`font-display w-7 flex-shrink-0 text-right text-lg leading-none font-light tabular-nums ${
+        className={`font-display w-6 flex-shrink-0 text-right text-base leading-none font-light tabular-nums ${
           complete
             ? 'text-emerald-500'
             : active
@@ -53,42 +64,61 @@ function NavRow({
         <span className="flex items-center gap-1.5">
           <span
             className={`block text-[0.85rem] font-medium ${
-              complete ? 'text-slate-400 line-through decoration-slate-300 dark:text-slate-500' : 'text-slate-800 dark:text-slate-100'
+              complete ? 'text-slate-400 dark:text-slate-500' : 'text-slate-800 dark:text-slate-100'
             }`}
           >
             {title}
           </span>
           {complete && <Check className="h-3 w-3 flex-shrink-0 text-emerald-500" strokeWidth={3} />}
         </span>
-        <span className="block text-xs text-slate-400 dark:text-slate-500">{sub}</span>
+        {sub && <span className="block text-xs text-slate-400 dark:text-slate-500">{sub}</span>}
       </span>
     </a>
   )
 }
 
-export function Sidebar({ modules, progress, activeId }: Props) {
+const TOOLS: { target: View; title: string }[] = [
+  { target: 'timer', title: 'Timer' },
+  { target: 'remember', title: 'Remember' },
+  { target: 'error-log', title: 'Error Log' },
+  { target: 'schools', title: 'Target Schools' },
+  { target: 'resources', title: 'Resources' },
+]
+
+export function Sidebar({ modules, progress, view, openModuleId, onNavigate }: Props) {
   return (
-    <nav className="sticky top-6 flex flex-col gap-0.5 rounded-xl border border-violet-100 bg-white py-2 dark:border-white/10 dark:bg-[#1a1730]">
+    <nav className="sticky top-6 flex flex-col self-start rounded-xl border border-violet-100 bg-white py-2 dark:border-white/10 dark:bg-[#1a1730]">
+      <div className="px-4 pb-1 pt-1.5 text-[11px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
+        Course
+      </div>
       {modules.map((m) => (
         <NavRow
           key={m.id}
-          href={`#${m.id}`}
-          active={activeId === m.id}
+          target={m.id}
+          active={view === 'course' && openModuleId === m.id}
           complete={moduleCompletion(m, progress) >= 100}
           mark={String(m.num).padStart(2, '0')}
           title={m.title}
           sub={m.dates}
+          onNavigate={onNavigate}
         />
       ))}
-      <NavRow
-        href="#error-log"
-        active={activeId === 'error-log'}
-        complete={false}
-        mark="–"
-        title="Error Log"
-        sub="Track every miss"
-      />
-      <NavRow href="#m7" active={activeId === 'm7'} complete={false} mark="–" title="Resource Library" sub="Reference" />
+
+      <div className="mx-4 my-2 border-t border-slate-100 dark:border-white/10" />
+      <div className="px-4 pb-1 text-[11px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
+        Tools
+      </div>
+      {TOOLS.map((t) => (
+        <NavRow
+          key={t.target}
+          target={t.target}
+          active={view === t.target}
+          complete={false}
+          mark="–"
+          title={t.title}
+          onNavigate={onNavigate}
+        />
+      ))}
     </nav>
   )
 }
