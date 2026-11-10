@@ -64,6 +64,7 @@ export const modulesBase: Module[] = [
       { id: 'm2-7', icon: 'timer', tag: 'drill', body: 'Sat 11/21 — Timed Quant section #1: OG Quant Q86, 89, 92, 93, 95, 105, 108, 113, 135, 141, 143, 149, 150, 153, 154, 162, 163, 165, 172, 190, 195 (21 Qs, 45 min, exam conditions, shuffle the order). Compare pace and accuracy to your Quant baseline in the Score Target card. Log every miss.' },
       { id: 'm2-8', icon: 'folder', tag: 'reading', body: 'Ongoing: when a chapter problem set goes badly (<70%), redo it the next morning before the new chapters. OG question numbers above are from the OG Quant Review 2024–25 question index, matched to each day’s chapters; most are medium/hard.' },
     ],
+    checkpoint: 'Sat 11/21, after Timed Section #1: decide whether to add TTP or e-GMAT. Stay on OG + Manhattan if you scored ≥80% on the 21 questions, finished in time, and the Error Log shows more Misread/Careless than Content gap. Start a trial before 11/22 if accuracy was under 70% or Content gap leads. Either way, Table Analysis / Graphics / Multi-Source practice needs the OG online bank or a course by Dec 6.',
     quiz: {
       id: 'q2',
       title: 'Quant Foundations',
