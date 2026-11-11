@@ -18,6 +18,27 @@ export const rememberCards: RememberCard[] = [
     ],
   },
   {
+    id: 'clean-scratch-work',
+    title: 'Clean scratch work',
+    why: 'Rushed, messy writing creates errors. Neat work is not slower, because you never have to redo a problem.',
+    columns: ['Habit', 'Catches'],
+    colWidths: ['w-3/5', 'w-2/5'],
+    testColumns: [0],
+    groups: [
+      [
+        ['Copy the numbers first, then check them against the screen', 'Copying 87.30 as 83.70'],
+        ['Label each number (x =, total =, rate =)', 'Solving for the wrong thing'],
+        ['One step per line, top to bottom, in its own box', 'Reading the wrong line'],
+        ['Write digits clearly: 1 with a base, crossed 7, closed 4, open 9', 'Misreading your own 1/7 or 4/9'],
+      ],
+      [
+        ['Cancel and factor before you multiply; keep fractions', 'Big, error-prone arithmetic'],
+        ['Estimate first; the answer must land near it', 'Being off by 10x or a sign flip'],
+        ['Cross out a mistake with one line; never write over it', 'Unreadable fixes'],
+      ],
+    ],
+  },
+  {
     id: 'fraction-decimal-percent',
     title: 'Fraction ↔ Decimal ↔ Percent',
     why: 'Spot these instantly instead of dividing. "0.125 × 2x" is just x/4; "12.5%" is just 1/8.',
