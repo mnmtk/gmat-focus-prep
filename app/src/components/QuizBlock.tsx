@@ -89,7 +89,7 @@ export function QuizBlock({ quiz, saved, disabled, onComplete }: Props) {
         ))}
       </div>
 
-      <div className="mt-4 flex items-center gap-3">
+      <div className="mt-4 flex flex-wrap items-center gap-3">
         {!submitted && (
           <button
             onClick={submit}

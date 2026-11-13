@@ -87,38 +87,74 @@ const TOOLS: { target: View; title: string }[] = [
 
 export function Sidebar({ modules, progress, view, openModuleId, onNavigate }: Props) {
   return (
-    <nav className="sticky top-6 flex flex-col self-start rounded-xl border border-violet-100 bg-white py-2 dark:border-white/10 dark:bg-[#1a1730]">
-      <div className="px-4 pb-1 pt-1.5 text-[11px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-        Course
-      </div>
-      {modules.map((m) => (
-        <NavRow
-          key={m.id}
-          target={m.id}
-          active={view === 'course' && openModuleId === m.id}
-          complete={moduleCompletion(m, progress) >= 100}
-          mark={String(m.num).padStart(2, '0')}
-          title={m.title}
-          sub={m.dates}
-          onNavigate={onNavigate}
-        />
-      ))}
+    <>
+      <nav aria-label="Study navigation" className="rounded-xl border border-violet-100 bg-white p-3 dark:border-white/10 dark:bg-[#1a1730] lg:hidden">
+        <label htmlFor="course-module" className="sr-only">Jump to course module</label>
+        <select
+          id="course-module"
+          value=""
+          onChange={(event) => onNavigate(event.target.value)}
+          className="min-h-11 w-full min-w-0 rounded-lg border border-violet-100 bg-white px-2.5 text-sm font-medium text-slate-800 dark:border-white/15 dark:bg-[#1a1730] dark:text-slate-100"
+        >
+          <option value="" disabled>Jump to course module</option>
+          <option value="course">Course overview</option>
+          {modules.map((module) => <option key={module.id} value={module.id}>{module.num}. {module.title}</option>)}
+        </select>
+        <div className="mt-2 grid grid-cols-2 gap-1.5 min-[360px]:grid-cols-3 sm:grid-cols-5">
+          {TOOLS.map(({ target, title }) => (
+            <a
+              key={target}
+              href={`#${target}`}
+              aria-current={view === target ? 'page' : undefined}
+              onClick={(event) => {
+                event.preventDefault()
+                onNavigate(target)
+              }}
+              className={`flex min-h-11 items-center justify-center rounded-lg px-1.5 text-center text-xs font-medium ${
+                view === target
+                  ? 'bg-violet-600 text-white'
+                  : 'bg-slate-50 text-slate-700 hover:bg-violet-50 dark:bg-white/5 dark:text-slate-200'
+              }`}
+            >
+              {title}
+            </a>
+          ))}
+        </div>
+      </nav>
 
-      <div className="mx-4 my-2 border-t border-slate-100 dark:border-white/10" />
-      <div className="px-4 pb-1 text-[11px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-        Tools
-      </div>
-      {TOOLS.map((t) => (
-        <NavRow
-          key={t.target}
-          target={t.target}
-          active={view === t.target}
-          complete={false}
-          mark="–"
-          title={t.title}
-          onNavigate={onNavigate}
-        />
-      ))}
-    </nav>
+      <nav aria-label="Study navigation" className="sticky top-6 hidden max-h-[calc(100dvh-3rem)] flex-col self-start overflow-y-auto lg:flex rounded-xl border border-violet-100 bg-white py-2 dark:border-white/10 dark:bg-[#1a1730]">
+        <div className="px-4 pb-1 pt-1.5 text-[11px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
+          Course
+        </div>
+        {modules.map((m) => (
+          <NavRow
+            key={m.id}
+            target={m.id}
+            active={view === 'course' && openModuleId === m.id}
+            complete={moduleCompletion(m, progress) >= 100}
+            mark={String(m.num).padStart(2, '0')}
+            title={m.title}
+            sub={m.dates}
+            onNavigate={onNavigate}
+          />
+        ))}
+
+        <div className="mx-4 my-2 border-t border-slate-100 dark:border-white/10" />
+        <div className="px-4 pb-1 text-[11px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
+          Tools
+        </div>
+        {TOOLS.map((t) => (
+          <NavRow
+            key={t.target}
+            target={t.target}
+            active={view === t.target}
+            complete={false}
+            mark="–"
+            title={t.title}
+            onNavigate={onNavigate}
+          />
+        ))}
+      </nav>
+    </>
   )
 }

@@ -19,7 +19,7 @@ function CardView({ card }: { card: RememberCard }) {
   }
 
   return (
-    <div className="rounded-lg border border-slate-200 p-4 dark:border-white/10">
+    <div className="min-w-0 rounded-lg border border-slate-200 p-3 sm:p-4 dark:border-white/10">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="font-display text-base font-medium text-slate-900 dark:text-white">{card.title}</h3>
         <button
@@ -56,7 +56,7 @@ function CardView({ card }: { card: RememberCard }) {
 
       <div className={`mt-3 grid grid-cols-1 gap-3 ${multiGroup ? 'lg:grid-cols-2' : ''}`}>
         {card.groups.map((rows, g) => (
-          <div key={g} className="overflow-x-auto">
+          <div key={g} className="min-w-0 overflow-x-auto">
             <table className={`w-full border-collapse text-sm tabular-nums ${card.colWidths ? 'table-fixed' : ''}`}>
               {card.colWidths && (
                 <colgroup>
@@ -65,17 +65,15 @@ function CardView({ card }: { card: RememberCard }) {
                   ))}
                 </colgroup>
               )}
-              {(g === 0 || (multiGroup && g === 1)) && (
-                <thead className={g === 1 ? 'hidden lg:table-header-group' : undefined}>
-                  <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-                    {card.columns.map((c) => (
-                      <th key={c} className="pb-1.5 pr-3 font-semibold">
-                        {c}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-              )}
+              <thead>
+                <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
+                  {card.columns.map((c) => (
+                    <th key={c} className="wrap-anywhere pb-1.5 pr-2 font-semibold sm:pr-3">
+                      {c}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
               <tbody>
                 {rows.map((cells, r) => (
                   <tr key={r} className="border-t border-slate-100 dark:border-white/5">
@@ -85,13 +83,13 @@ function CardView({ card }: { card: RememberCard }) {
                       return (
                         <td
                           key={c}
-                          className={`py-1.5 pr-3 ${c === 0 ? 'font-medium text-slate-800 dark:text-slate-100' : 'text-slate-600 dark:text-slate-300'}`}
+                          className={`wrap-anywhere py-1.5 pr-2 sm:pr-3 ${c === 0 ? 'font-medium text-slate-800 dark:text-slate-100' : 'text-slate-600 dark:text-slate-300'}`}
                         >
                           {hidden ? (
                             <button
                               onClick={() => reveal(key)}
                               aria-label="Reveal answer"
-                              className="h-6 w-16 rounded bg-violet-100 text-violet-400 hover:bg-violet-200 dark:bg-violet-500/15 dark:text-violet-400 dark:hover:bg-violet-500/25"
+                              className="min-h-8 w-full max-w-16 rounded bg-violet-100 text-violet-400 hover:bg-violet-200 dark:bg-violet-500/15 dark:text-violet-400 dark:hover:bg-violet-500/25"
                             >
                               ?
                             </button>
@@ -116,7 +114,7 @@ export function Remember() {
   return (
     <section
       id="remember"
-      className="scroll-mt-6 rounded-xl border border-violet-100 bg-white p-6 dark:border-white/10 dark:bg-[#1a1730]"
+      className="scroll-mt-6 rounded-xl border border-violet-100 bg-white p-4 sm:p-6 dark:border-white/10 dark:bg-[#1a1730]"
     >
       <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-violet-600 dark:text-violet-400">
         <Brain className="h-3.5 w-3.5" strokeWidth={2} /> Remember

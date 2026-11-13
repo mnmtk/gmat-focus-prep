@@ -57,7 +57,7 @@ function ClockFace({
   }
   const hand = point(f, 64)
   return (
-    <svg viewBox="0 0 200 200" className="my-3 h-44 w-44 sm:h-52 sm:w-52" role="img" aria-hidden="true">
+    <svg viewBox="0 0 200 200" className="my-3 aspect-square w-44 max-w-full sm:w-52" role="img" aria-hidden="true">
       <circle cx="100" cy="100" r="94" className="fill-white stroke-slate-200 dark:fill-white/5 dark:stroke-white/10" strokeWidth="2" />
       {Array.from({ length: 60 }, (_, i) => {
         const major = i % 5 === 0
@@ -209,7 +209,7 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
   const slowest = laps.length ? Math.max(...laps) : 0
 
   return (
-    <section className="rounded-xl border border-violet-100 bg-white p-6 dark:border-white/10 dark:bg-[#1a1730]">
+    <section className="rounded-xl border border-violet-100 bg-white p-4 sm:p-6 dark:border-white/10 dark:bg-[#1a1730]">
       <div className="text-xs font-semibold uppercase tracking-wide text-violet-600 dark:text-violet-400">Timer</div>
       <h2 className="font-display mt-0.5 text-xl font-medium text-slate-900 dark:text-white">Pace every question</h2>
       <p className="text-sm text-slate-500 dark:text-slate-400">
@@ -232,7 +232,7 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
             {p.label} <span className="opacity-70">{p.questions}Q · {p.minutes}m</span>
           </button>
         ))}
-        <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 py-0.5 pl-3 pr-1 text-xs text-slate-600 dark:bg-white/5 dark:text-slate-300">
+        <span className="inline-flex max-w-full flex-wrap items-center gap-1 rounded-lg bg-slate-100 py-1 pl-3 pr-1 text-xs text-slate-600 dark:bg-white/5 dark:text-slate-300">
           Custom
           <input
             type="number"
@@ -265,8 +265,8 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
         </span>
       </div>
 
-      <div className="mt-6 grid gap-6 sm:grid-cols-2">
-        <div className="flex flex-col items-center text-center">
+      <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div className="flex min-w-0 flex-col items-center text-center">
           <div className="text-xs font-medium uppercase tracking-wide text-slate-400">Section · time left</div>
           <ClockFace
             fraction={elapsed / total}
@@ -274,7 +274,7 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
             labels={sectionLabels(preset.minutes)}
           />
           <div
-            className={`font-display text-5xl font-light leading-none tabular-nums ${
+            className={`font-display text-4xl font-light leading-none sm:text-5xl tabular-nums ${
               remaining <= 0 ? 'text-rose-600' : remaining < 300 ? 'text-amber-600' : 'text-slate-900 dark:text-white'
             }`}
           >
@@ -293,7 +293,7 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
           </div>
         </div>
 
-        <div className="flex flex-col items-center text-center">
+        <div className="flex min-w-0 flex-col items-center text-center">
           <div className="text-xs font-medium uppercase tracking-wide text-slate-400">
             Question {Math.min(laps.length + 1, preset.questions)} of {preset.questions}
           </div>
@@ -306,7 +306,7 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
               { at: 2 / 3, text: '2m' },
             ]}
           />
-          <div className="font-display text-5xl font-light leading-none tabular-nums text-slate-900 dark:text-white">
+          <div className="font-display text-4xl font-light leading-none sm:text-5xl tabular-nums text-slate-900 dark:text-white">
             {fmt(finished ? 0 : onQuestion)}
           </div>
           <div className="mt-2 text-sm text-slate-500 dark:text-slate-400">

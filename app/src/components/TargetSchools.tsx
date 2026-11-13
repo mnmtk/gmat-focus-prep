@@ -82,7 +82,7 @@ function SchoolCard({ school }: { school: TargetSchool }) {
 
 export function TargetSchools() {
   return (
-    <section id="schools" className="scroll-mt-6 rounded-xl border border-violet-100 bg-white p-6 dark:border-white/10 dark:bg-[#1a1730]">
+    <section id="schools" className="scroll-mt-6 rounded-xl border border-violet-100 bg-white p-4 sm:p-6 dark:border-white/10 dark:bg-[#1a1730]">
       <div className="text-xs font-semibold uppercase tracking-wide text-violet-600 dark:text-violet-400">Target Schools</div>
       <h2 className="font-display mt-0.5 text-xl font-medium text-slate-900 dark:text-white">All six Ivy MBA programs</h2>
       <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">

@@ -18,7 +18,7 @@ interface Props {
 
 export function LessonRow({ lesson, checked, disabled, onToggle }: Props) {
   return (
-    <div className={`flex items-start gap-3 py-2.5 border-b border-slate-100 last:border-0 dark:border-white/5 ${disabled ? 'opacity-50' : ''}`}>
+    <div className={`flex items-start gap-2 py-2.5 sm:gap-3 border-b border-slate-100 last:border-0 dark:border-white/5 ${disabled ? 'opacity-50' : ''}`}>
       <input
         type="checkbox"
         checked={checked}
@@ -29,7 +29,7 @@ export function LessonRow({ lesson, checked, disabled, onToggle }: Props) {
       <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center text-violet-500 dark:text-violet-400">
         <LessonIcon name={lesson.icon} className="h-4 w-4" />
       </span>
-      <div className={`flex-1 text-sm ${checked ? 'text-slate-400 line-through dark:text-slate-500' : 'text-slate-700 dark:text-slate-200'}`}>
+      <div className={`min-w-0 flex-1 wrap-anywhere text-sm ${checked ? 'text-slate-400 line-through dark:text-slate-500' : 'text-slate-700 dark:text-slate-200'}`}>
         {lesson.body}
         <span className="ml-2 inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
           <span className={`h-1.5 w-1.5 rounded-full ${TAG_DOT[lesson.tag]}`} />
