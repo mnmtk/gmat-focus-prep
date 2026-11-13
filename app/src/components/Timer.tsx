@@ -175,7 +175,7 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
   useEffect(() => {
     if (!active) return
     function onKey(e: KeyboardEvent) {
-      if (e.target instanceof HTMLInputElement) return
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) return
       if (e.code === 'Space') {
         e.preventDefault()
         if (ticking) next()
