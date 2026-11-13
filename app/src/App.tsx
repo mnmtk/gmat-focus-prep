@@ -76,15 +76,15 @@ function App() {
   return (
     <div className="min-h-screen bg-[#F6F5FC] font-sans antialiased dark:bg-[#131124]">
       <header className="border-b border-violet-100 bg-white dark:border-white/10 dark:bg-[#1a1730]">
-        <div className="mx-auto max-w-6xl px-6 py-5">
+        <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6 sm:py-5">
           <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3">
-            <div className="flex items-center gap-3">
+            <div className="flex min-w-0 items-center gap-3">
               <img src={logo} alt="" className="h-9 w-9 flex-shrink-0" />
-              <h1 className="font-display text-[1.6rem] font-medium tracking-tight text-slate-900 dark:text-white">
+              <h1 className="font-display text-xl font-medium leading-tight tracking-tight sm:text-[1.6rem] text-slate-900 dark:text-white">
                 GMAT Focus Edition — December 2026 Sprint
               </h1>
             </div>
-            <div className="w-full max-w-xs">
+            <div className="w-full sm:max-w-xs">
               <div className="mb-1.5 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                 <span className="font-medium text-slate-600 dark:text-slate-300">Course progress</span>
                 <span>
@@ -106,7 +106,7 @@ function App() {
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-6xl gap-6 px-6 py-8 lg:grid-cols-[240px_1fr]">
+      <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)] gap-4 px-4 pb-24 pt-4 sm:px-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-6 lg:pt-8">
         <Sidebar modules={modules} progress={progress} view={view} openModuleId={openId} onNavigate={navigate} />
 
         <main className="flex min-w-0 flex-col gap-4">

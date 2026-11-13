@@ -24,14 +24,14 @@ export function ModuleSection({ module, progress, connected, open, onToggleOpen,
   return (
     <section
       id={module.id}
-      className={`scroll-mt-6 rounded-xl border border-violet-100 bg-white dark:border-white/10 dark:bg-[#1a1730] ${open ? 'p-6' : 'px-6 py-3.5'}`}
+      className={`scroll-mt-6 rounded-xl border border-violet-100 bg-white dark:border-white/10 dark:bg-[#1a1730] ${open ? 'p-4 sm:p-6' : 'px-4 py-3.5 sm:px-6'}`}
     >
       <button
         onClick={onToggleOpen}
         aria-expanded={open}
         className="flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-1 text-left"
       >
-        <span className="flex items-baseline gap-3.5">
+        <span className="flex min-w-0 items-baseline gap-2.5 sm:gap-3.5">
           <span
             className={`font-display font-light leading-none tabular-nums text-violet-200 dark:text-violet-900 ${open ? 'text-4xl' : 'text-2xl'}`}
           >
@@ -50,7 +50,7 @@ export function ModuleSection({ module, progress, connected, open, onToggleOpen,
             </span>
           </span>
         </span>
-        <span className="flex items-center gap-2 whitespace-nowrap text-xs text-slate-500 dark:text-slate-400">
+        <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-slate-500 dark:text-slate-400">
           {module.dates}
           {!open &&
             (pct >= 100 ? (

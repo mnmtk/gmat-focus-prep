@@ -29,8 +29,8 @@ export function DueRedos({ entries, connected, onUpdate }: Props) {
   if (due.length === 0) return null
 
   return (
-    <section className="rounded-xl border border-violet-200 bg-white p-5 dark:border-violet-500/30 dark:bg-[#1a1730]">
-      <div className="flex items-baseline justify-between gap-2">
+    <section className="rounded-xl border border-violet-200 bg-white p-4 sm:p-5 dark:border-violet-500/30 dark:bg-[#1a1730]">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h2 className="font-display text-lg font-medium text-slate-900 dark:text-white">
           Redo today <span className="tabular-nums text-violet-600 dark:text-violet-400">{due.length}</span>
         </h2>
@@ -39,7 +39,7 @@ export function DueRedos({ entries, connected, onUpdate }: Props) {
       <ul className="mt-3 divide-y divide-slate-100 dark:divide-white/5">
         {due.map((e) => (
           <li key={e.id} className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-2.5">
-            <div className="min-w-0 flex-1">
+            <div className="min-w-0 basis-full wrap-anywhere sm:flex-1">
               <div className="text-sm font-medium text-slate-800 dark:text-slate-100">
                 {e.question}
                 {e.redoDate < today && (
@@ -51,7 +51,7 @@ export function DueRedos({ entries, connected, onUpdate }: Props) {
                 {isSecondPass(e) && ' · final check'}
               </div>
             </div>
-            <div className="flex gap-1.5">
+            <div className="flex flex-wrap gap-1.5">
               <button
                 disabled={!connected}
                 onClick={() =>

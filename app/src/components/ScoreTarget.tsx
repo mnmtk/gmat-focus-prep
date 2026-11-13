@@ -29,7 +29,7 @@ function SectionRow({ label, score, percentile }: { label: string; score: number
 export function ScoreTarget() {
   if (!baseline) {
     return (
-      <section className="rounded-xl border border-violet-100 bg-white p-6 dark:border-white/10 dark:bg-[#1a1730]">
+      <section className="rounded-xl border border-violet-100 bg-white p-4 sm:p-6 dark:border-white/10 dark:bg-[#1a1730]">
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-violet-600 dark:text-violet-400">
           <Target className="h-3.5 w-3.5" strokeWidth={2} /> Score Target
         </div>
@@ -45,7 +45,7 @@ export function ScoreTarget() {
   const totalGap = SCORE_TARGET - baseline.total
 
   return (
-    <section className="rounded-xl border border-violet-100 bg-white p-6 dark:border-white/10 dark:bg-[#1a1730]">
+    <section className="rounded-xl border border-violet-100 bg-white p-4 sm:p-6 dark:border-white/10 dark:bg-[#1a1730]">
       <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-violet-600 dark:text-violet-400">
         <Target className="h-3.5 w-3.5" strokeWidth={2} /> Score Target
       </div>
