@@ -25,3 +25,6 @@ src/data/local.ts
 *.njsproj
 *.sln
 *.sw?
+
+# Personal study files served locally (never commit)
+public/local/
