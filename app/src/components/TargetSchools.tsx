@@ -13,15 +13,15 @@ const timeline = [
 
 function SchoolCard({ school }: { school: TargetSchool }) {
   return (
-    <div className="rounded-lg border border-slate-200 p-4 dark:border-white/10">
+    <div className="rounded-lg border border-outline p-4 dark:border-white/10">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <div className="flex items-center gap-2">
           <Landmark className="h-4 w-4 flex-shrink-0 text-violet-500" strokeWidth={2} />
           <h3 className="font-display text-base font-medium text-slate-900 dark:text-white">{school.name}</h3>
         </div>
-        <span className="text-xs text-slate-400 dark:text-slate-500">{school.city}</span>
+        <span className="text-xs text-slate-500 dark:text-slate-500">{school.city}</span>
       </div>
-      <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{school.program}</p>
+      <p className="mt-0.5 text-xs text-slate-600 dark:text-slate-400">{school.program}</p>
 
       <div className="mt-2.5 flex items-start gap-1.5 rounded-md bg-violet-50/70 px-2.5 py-1.5 text-xs text-violet-800 dark:bg-violet-500/10 dark:text-violet-300">
         <Trophy className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" strokeWidth={2} />
@@ -35,11 +35,11 @@ function SchoolCard({ school }: { school: TargetSchool }) {
         <p className="mb-1.5 text-xs text-amber-700 dark:text-amber-400">{school.cycleNote}</p>
         <div className="grid grid-cols-1 gap-1 text-xs sm:grid-cols-3">
           {school.deadlines.map((d) => (
-            <div key={d.round} className="rounded-md bg-slate-50 px-2 py-1.5 dark:bg-white/5">
+            <div key={d.round} className="rounded-md bg-surface-muted px-2 py-1.5 dark:bg-white/5">
               <div className="font-medium text-slate-700 dark:text-slate-200">{d.round}</div>
-              <div className="text-slate-500 dark:text-slate-400">{d.due}</div>
+              <div className="text-slate-600 dark:text-slate-400">{d.due}</div>
               {d.decision && d.decision !== '—' && (
-                <div className="text-slate-400 dark:text-slate-500">decision {d.decision}</div>
+                <div className="text-slate-500 dark:text-slate-500">decision {d.decision}</div>
               )}
             </div>
           ))}
@@ -82,10 +82,10 @@ function SchoolCard({ school }: { school: TargetSchool }) {
 
 export function TargetSchools() {
   return (
-    <section id="schools" className="scroll-mt-6 rounded-xl border border-violet-100 bg-white p-4 sm:p-6 dark:border-white/10 dark:bg-[#1a1730]">
+    <section id="schools" className="scroll-mt-6 rounded-xl border border-outline bg-surface p-4 sm:p-6 dark:border-white/10 dark:bg-[#1a1730]">
       <div className="text-xs font-semibold uppercase tracking-wide text-violet-600 dark:text-violet-400">Target Schools</div>
       <h2 className="font-display mt-0.5 text-xl font-medium text-slate-900 dark:text-white">All six Ivy MBA programs</h2>
-      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+      <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
         Of the 8 Ivy League universities, only 6 run a full-time MBA — {ivyNoMba.join(' and ')} don't have one at all.
         Every one of the six is in play here; none are ruled out as reach schools.
       </p>

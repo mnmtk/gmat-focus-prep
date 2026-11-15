@@ -165,6 +165,7 @@ export function useLocalDb() {
     lessons: data.lessons,
     quizzes: data.quizzes,
     errors: data.errors,
+    flashcards: data.flashcards,
     toggleLesson,
     recordQuiz,
     addError,

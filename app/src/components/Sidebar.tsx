@@ -1,7 +1,7 @@
 import type { Module, ProgressState } from '../types'
 import { Check } from '../lib/icons'
 
-export type View = 'course' | 'timer' | 'remember' | 'error-log' | 'schools' | 'resources'
+export type View = 'course' | 'timer' | 'remember' | 'flashcards' | 'error-log' | 'schools' | 'resources'
 
 interface Props {
   modules: Module[]
@@ -64,14 +64,14 @@ function NavRow({
         <span className="flex items-center gap-1.5">
           <span
             className={`block text-[0.85rem] font-medium ${
-              complete ? 'text-slate-400 dark:text-slate-500' : 'text-slate-800 dark:text-slate-100'
+              complete ? 'text-slate-500 dark:text-slate-500' : 'text-slate-800 dark:text-slate-100'
             }`}
           >
             {title}
           </span>
           {complete && <Check className="h-3 w-3 flex-shrink-0 text-emerald-500" strokeWidth={3} />}
         </span>
-        {sub && <span className="block text-xs text-slate-400 dark:text-slate-500">{sub}</span>}
+        {sub && <span className="block text-xs text-slate-500 dark:text-slate-500">{sub}</span>}
       </span>
     </a>
   )
@@ -80,6 +80,7 @@ function NavRow({
 const TOOLS: { target: View; title: string }[] = [
   { target: 'timer', title: 'Timer' },
   { target: 'remember', title: 'Remember' },
+  { target: 'flashcards', title: 'Flashcards' },
   { target: 'error-log', title: 'Error Log' },
   { target: 'schools', title: 'Target Schools' },
   { target: 'resources', title: 'Resources' },
@@ -88,19 +89,19 @@ const TOOLS: { target: View; title: string }[] = [
 export function Sidebar({ modules, progress, view, openModuleId, onNavigate }: Props) {
   return (
     <>
-      <nav aria-label="Study navigation" className="rounded-xl border border-violet-100 bg-white p-3 dark:border-white/10 dark:bg-[#1a1730] lg:hidden">
+      <nav aria-label="Study navigation" className="rounded-xl border border-outline bg-surface p-3 dark:border-white/10 dark:bg-[#1a1730] lg:hidden">
         <label htmlFor="course-module" className="sr-only">Jump to course module</label>
         <select
           id="course-module"
           value=""
           onChange={(event) => onNavigate(event.target.value)}
-          className="min-h-11 w-full min-w-0 rounded-lg border border-violet-100 bg-white px-2.5 text-sm font-medium text-slate-800 dark:border-white/15 dark:bg-[#1a1730] dark:text-slate-100"
+          className="min-h-11 w-full min-w-0 rounded-lg border border-outline bg-surface px-2.5 text-sm font-medium text-slate-800 dark:border-white/15 dark:bg-[#1a1730] dark:text-slate-100"
         >
           <option value="" disabled>Jump to course module</option>
           <option value="course">Course overview</option>
           {modules.map((module) => <option key={module.id} value={module.id}>{module.num}. {module.title}</option>)}
         </select>
-        <div className="mt-2 grid grid-cols-2 gap-1.5 min-[360px]:grid-cols-3 sm:grid-cols-5">
+        <div className="mt-2 grid grid-cols-2 gap-1.5 min-[360px]:grid-cols-3 sm:grid-cols-6">
           {TOOLS.map(({ target, title }) => (
             <a
               key={target}
@@ -113,7 +114,7 @@ export function Sidebar({ modules, progress, view, openModuleId, onNavigate }: P
               className={`flex min-h-11 items-center justify-center rounded-lg px-1.5 text-center text-xs font-medium ${
                 view === target
                   ? 'bg-violet-600 text-white'
-                  : 'bg-slate-50 text-slate-700 hover:bg-violet-50 dark:bg-white/5 dark:text-slate-200'
+                  : 'bg-surface-muted text-slate-700 hover:bg-violet-50 dark:bg-white/5 dark:text-slate-200'
               }`}
             >
               {title}
@@ -122,8 +123,8 @@ export function Sidebar({ modules, progress, view, openModuleId, onNavigate }: P
         </div>
       </nav>
 
-      <nav aria-label="Study navigation" className="sticky top-6 hidden max-h-[calc(100dvh-3rem)] flex-col self-start overflow-y-auto lg:flex rounded-xl border border-violet-100 bg-white py-2 dark:border-white/10 dark:bg-[#1a1730]">
-        <div className="px-4 pb-1 pt-1.5 text-[11px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
+      <nav aria-label="Study navigation" className="sticky top-6 hidden max-h-[calc(100dvh-3rem)] flex-col self-start overflow-y-auto lg:flex rounded-xl border border-outline bg-surface py-2 dark:border-white/10 dark:bg-[#1a1730]">
+        <div className="px-4 pb-1 pt-1.5 text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-500">
           Course
         </div>
         {modules.map((m) => (
@@ -140,7 +141,7 @@ export function Sidebar({ modules, progress, view, openModuleId, onNavigate }: P
         ))}
 
         <div className="mx-4 my-2 border-t border-slate-100 dark:border-white/10" />
-        <div className="px-4 pb-1 text-[11px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
+        <div className="px-4 pb-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-500">
           Tools
         </div>
         {TOOLS.map((t) => (

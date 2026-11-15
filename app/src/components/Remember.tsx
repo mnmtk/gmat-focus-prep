@@ -19,7 +19,7 @@ function CardView({ card }: { card: RememberCard }) {
   }
 
   return (
-    <div className="min-w-0 rounded-lg border border-slate-200 p-3 sm:p-4 dark:border-white/10">
+    <div className="min-w-0 rounded-lg border border-outline p-3 sm:p-4 dark:border-white/10">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="font-display text-base font-medium text-slate-900 dark:text-white">{card.title}</h3>
         <button
@@ -27,7 +27,7 @@ function CardView({ card }: { card: RememberCard }) {
           className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium transition-colors ${
             testing
               ? 'bg-violet-600 text-white dark:bg-violet-500'
-              : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10'
+              : 'bg-surface-muted text-slate-600 hover:bg-slate-200 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10'
           }`}
         >
           {testing ? <EyeOff className="h-3.5 w-3.5" strokeWidth={2} /> : <Eye className="h-3.5 w-3.5" strokeWidth={2} />}
@@ -36,7 +36,7 @@ function CardView({ card }: { card: RememberCard }) {
       </div>
 
       {card.why && (
-        <p className="mt-1.5 flex items-start gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+        <p className="mt-1.5 flex items-start gap-1.5 text-xs text-slate-600 dark:text-slate-400">
           <Lightbulb className="mt-px h-3.5 w-3.5 flex-shrink-0 text-amber-500" strokeWidth={2} />
           {card.why}
         </p>
@@ -66,7 +66,7 @@ function CardView({ card }: { card: RememberCard }) {
                 </colgroup>
               )}
               <thead>
-                <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
+                <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-500">
                   {card.columns.map((c) => (
                     <th key={c} className="wrap-anywhere pb-1.5 pr-2 font-semibold sm:pr-3">
                       {c}
@@ -114,13 +114,13 @@ export function Remember() {
   return (
     <section
       id="remember"
-      className="scroll-mt-6 rounded-xl border border-violet-100 bg-white p-4 sm:p-6 dark:border-white/10 dark:bg-[#1a1730]"
+      className="scroll-mt-6 rounded-xl border border-outline bg-surface p-4 sm:p-6 dark:border-white/10 dark:bg-[#1a1730]"
     >
       <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-violet-600 dark:text-violet-400">
         <Brain className="h-3.5 w-3.5" strokeWidth={2} /> Remember
       </div>
       <h2 className="font-display mt-0.5 text-xl font-medium text-slate-900 dark:text-white">Facts to know cold</h2>
-      <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
+      <p className="mb-4 text-sm text-slate-600 dark:text-slate-400">
         Things you should recall instantly, not work out. Use "Test me" for a daily 5-minute drill.
       </p>
       <div className="flex flex-col gap-4">

@@ -16,7 +16,7 @@ function SectionRow({ label, score, percentile }: { label: string; score: number
     <div>
       <div className="mb-1 flex items-baseline justify-between text-xs">
         <span className="font-medium text-slate-700 dark:text-slate-200">{label}</span>
-        <span className="text-slate-500 dark:text-slate-400">
+        <span className="text-slate-600 dark:text-slate-400">
           <span className="font-display font-medium text-slate-800 dark:text-slate-100">{score}</span>/{SECTION_MAX} ·{' '}
           {percentile}th pct · <span className="text-violet-600 dark:text-violet-400">{gap > 0 ? `+${gap} to max` : 'maxed'}</span>
         </span>
@@ -29,13 +29,13 @@ function SectionRow({ label, score, percentile }: { label: string; score: number
 export function ScoreTarget() {
   if (!baseline) {
     return (
-      <section className="rounded-xl border border-violet-100 bg-white p-4 sm:p-6 dark:border-white/10 dark:bg-[#1a1730]">
+      <section className="rounded-xl border border-outline bg-surface p-4 sm:p-6 dark:border-white/10 dark:bg-[#1a1730]">
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-violet-600 dark:text-violet-400">
           <Target className="h-3.5 w-3.5" strokeWidth={2} /> Score Target
         </div>
-        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-          Add your most recent GMAT™ Official Practice Exam score as <code className="rounded bg-slate-100 px-1 py-0.5 text-xs dark:bg-white/10">localBaseline</code> in{' '}
-          <code className="rounded bg-slate-100 px-1 py-0.5 text-xs dark:bg-white/10">src/data/local.ts</code> to see baseline-vs-target here.
+        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+          Add your most recent GMAT™ Official Practice Exam score as <code className="rounded bg-surface-muted px-1 py-0.5 text-xs dark:bg-white/10">localBaseline</code> in{' '}
+          <code className="rounded bg-surface-muted px-1 py-0.5 text-xs dark:bg-white/10">src/data/local.ts</code> to see baseline-vs-target here.
         </p>
       </section>
     )
@@ -45,16 +45,16 @@ export function ScoreTarget() {
   const totalGap = SCORE_TARGET - baseline.total
 
   return (
-    <section className="rounded-xl border border-violet-100 bg-white p-4 sm:p-6 dark:border-white/10 dark:bg-[#1a1730]">
+    <section className="rounded-xl border border-outline bg-surface p-4 sm:p-6 dark:border-white/10 dark:bg-[#1a1730]">
       <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-violet-600 dark:text-violet-400">
         <Target className="h-3.5 w-3.5" strokeWidth={2} /> Score Target
       </div>
 
       <div className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <span className="font-display text-3xl font-medium text-slate-900 dark:text-white">{baseline.total}</span>
-        <span className="text-slate-400 dark:text-slate-500">→</span>
+        <span className="text-slate-500 dark:text-slate-500">→</span>
         <span className="font-display text-3xl font-medium text-violet-600 dark:text-violet-400">{SCORE_TARGET}</span>
-        <span className="text-xs text-slate-500 dark:text-slate-400">
+        <span className="text-xs text-slate-600 dark:text-slate-400">
           baseline ({baseline.totalPercentile}th pct, {baseline.date}) → target · +{totalGap} points to close
         </span>
       </div>

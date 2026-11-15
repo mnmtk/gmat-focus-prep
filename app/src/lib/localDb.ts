@@ -1,17 +1,20 @@
 import type { ErrorLogEntry, ErrorReason, ErrorSection, ProgressState, QuizResult } from '../types'
+import { decodeFlashcards, encodeFlashcards, FLASHCARD_COLUMNS, type Flashcard } from '../data/flashcards'
 
 export interface LocalDbState extends ProgressState {
   errors: ErrorLogEntry[]
+  flashcards: Flashcard[]
 }
 
 export function emptyLocalDb(): LocalDbState {
-  return { lessons: {}, quizzes: {}, errors: [] }
+  return { lessons: {}, quizzes: {}, errors: [], flashcards: [] }
 }
 
 const SHEET = {
   ERRORS: 'Error Log',
   LESSONS: 'Lesson Progress',
   QUIZZES: 'Quiz Results',
+  FLASHCARDS: 'Flashcards',
 } as const
 
 const ERROR_COLUMNS = ['Date', 'Section', 'Topic', 'Question', 'Reason', 'Notes', 'Redo Date', 'Resolved'] as const
@@ -81,7 +84,13 @@ export async function readLocalDb(handle: FileSystemFileHandle): Promise<LocalDb
   const errors = readErrorSheet(XLSX, workbook)
   const lessons = readLessonSheet(XLSX, workbook)
   const quizzes = readQuizSheet(XLSX, workbook)
-  return { errors, lessons, quizzes }
+  const sheet = workbook.Sheets[SHEET.FLASHCARDS]
+  const rows = sheet ? XLSX.utils.sheet_to_json<unknown[]>(sheet, { header: 1, defval: '' }) : []
+  if (rows.length && !FLASHCARD_COLUMNS.every((column, index) => rows[0][index] === column)) {
+    throw new Error(`Check the Flashcards headers. Expected ${FLASHCARD_COLUMNS.join(', ')}.`)
+  }
+  const flashcards = decodeFlashcards(rows.slice(1))
+  return { errors, lessons, quizzes, flashcards }
 }
 
 // Narrow typing for the dynamically imported xlsx module without pulling its types into the main bundle.
@@ -143,7 +152,15 @@ function readQuizSheet(XLSX: XlsxModule, workbook: ReturnType<XlsxModule['read']
 
 export async function writeLocalDb(handle: FileSystemFileHandle, state: LocalDbState) {
   const XLSX = await import('xlsx')
-  const workbook = XLSX.utils.book_new()
+  const file = await handle.getFile()
+  const workbook = file.size === 0
+    ? XLSX.utils.book_new()
+    : XLSX.read(await file.arrayBuffer(), { type: 'array' })
+
+  function saveSheet(name: string, sheet: ReturnType<XlsxModule['utils']['json_to_sheet']>) {
+    if (workbook.SheetNames.includes(name)) workbook.Sheets[name] = sheet
+    else XLSX.utils.book_append_sheet(workbook, sheet, name)
+  }
 
   const errorRows = state.errors.map((e) => ({
     Date: e.date,
@@ -157,7 +174,7 @@ export async function writeLocalDb(handle: FileSystemFileHandle, state: LocalDbS
   }))
   const errorSheet = XLSX.utils.json_to_sheet(errorRows, { header: [...ERROR_COLUMNS] })
   errorSheet['!cols'] = [{ wch: 11 }, { wch: 13 }, { wch: 22 }, { wch: 40 }, { wch: 15 }, { wch: 30 }, { wch: 11 }, { wch: 9 }]
-  XLSX.utils.book_append_sheet(workbook, errorSheet, SHEET.ERRORS)
+  saveSheet(SHEET.ERRORS, errorSheet)
 
   const lessonRows = Object.entries(state.lessons).map(([id, done]) => ({
     'Lesson ID': id,
@@ -165,7 +182,7 @@ export async function writeLocalDb(handle: FileSystemFileHandle, state: LocalDbS
   }))
   const lessonSheet = XLSX.utils.json_to_sheet(lessonRows, { header: ['Lesson ID', 'Completed'] })
   lessonSheet['!cols'] = [{ wch: 14 }, { wch: 11 }]
-  XLSX.utils.book_append_sheet(workbook, lessonSheet, SHEET.LESSONS)
+  saveSheet(SHEET.LESSONS, lessonSheet)
 
   const quizRows = Object.entries(state.quizzes).map(([id, r]) => ({
     'Quiz ID': id,
@@ -174,10 +191,21 @@ export async function writeLocalDb(handle: FileSystemFileHandle, state: LocalDbS
   }))
   const quizSheet = XLSX.utils.json_to_sheet(quizRows, { header: ['Quiz ID', 'Passed', 'Score'] })
   quizSheet['!cols'] = [{ wch: 10 }, { wch: 8 }, { wch: 7 }]
-  XLSX.utils.book_append_sheet(workbook, quizSheet, SHEET.QUIZZES)
+  saveSheet(SHEET.QUIZZES, quizSheet)
+
+  // Flashcards are edited in the workbook. Preserve their sheet and formatting
+  // when saving progress; create the tab for new/older workbooks if missing.
+  if (!workbook.Sheets[SHEET.FLASHCARDS]) {
+    saveSheet(SHEET.FLASHCARDS, XLSX.utils.aoa_to_sheet([[...FLASHCARD_COLUMNS], ...encodeFlashcards(state.flashcards)]))
+  }
 
   const out = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' }) as ArrayBuffer
   const writable = await handle.createWritable()
-  await writable.write(out)
-  await writable.close()
+  try {
+    await writable.write(out)
+    await writable.close()
+  } catch (error) {
+    await writable.abort().catch(() => {})
+    throw error
+  }
 }

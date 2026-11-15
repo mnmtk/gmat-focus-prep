@@ -2,9 +2,33 @@
 @import "@fontsource-variable/fraunces";
 @import "@fontsource-variable/work-sans";
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+:root {
+  color-scheme: light;
+  /* Warm, muted surfaces reduce glare during long study sessions. */
+  --page: #e3dfd6;
+  --surface: #ede9e1;
+  --surface-muted: #e2ddd3;
+  --outline: #cec8bd;
+  background-color: var(--page);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  background-color: #131124;
+}
+
 @theme {
   --font-sans: "Work Sans Variable", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-outline: var(--outline);
 }
 
 .font-display {

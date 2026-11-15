@@ -7,15 +7,17 @@ import { ResourceAppendix } from './components/ResourceAppendix'
 import { TargetSchools } from './components/TargetSchools'
 import { ScoreTarget } from './components/ScoreTarget'
 import { Remember } from './components/Remember'
+import { Flashcards } from './components/Flashcards'
 import { ErrorLog } from './components/ErrorLog'
 import { DueRedos } from './components/DueRedos'
 import { Timer } from './components/Timer'
 import { ConnectBar } from './components/ConnectBar'
 import { ProgressBar } from './components/ProgressBar'
+import { ThemeToggle } from './components/ThemeToggle'
 import type { Module, ProgressState } from './types'
 import logo from './assets/logo.png'
 
-const VIEWS: View[] = ['course', 'timer', 'remember', 'error-log', 'schools', 'resources']
+const VIEWS: View[] = ['course', 'timer', 'remember', 'flashcards', 'error-log', 'schools', 'resources']
 
 function parseHash(): { view: View; moduleId?: string } {
   const h = window.location.hash.slice(1)
@@ -30,10 +32,10 @@ function moduleDone(m: Module, progress: ProgressState) {
   return lessonsDone && quizDone
 }
 
-function App() {
+export default function App() {
   const db = useLocalDb()
-  const progress = { lessons: db.lessons, quizzes: db.quizzes }
   const connected = db.status === 'connected'
+  const progress = { lessons: db.lessons, quizzes: db.quizzes }
 
   const [view, setView] = useState<View>(() => parseHash().view)
   // undefined = follow the first unfinished module; '' = all collapsed
@@ -74,8 +76,8 @@ function App() {
   const overallPct = totals.total ? Math.round((totals.done / totals.total) * 100) : 0
 
   return (
-    <div className="min-h-screen bg-[#F6F5FC] font-sans antialiased dark:bg-[#131124]">
-      <header className="border-b border-violet-100 bg-white dark:border-white/10 dark:bg-[#1a1730]">
+    <div className="min-h-screen bg-page font-sans antialiased dark:bg-[#131124]">
+      <header className="border-b border-outline bg-surface dark:border-white/10 dark:bg-[#1a1730]">
         <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6 sm:py-5">
           <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3">
             <div className="flex min-w-0 items-center gap-3">
@@ -84,14 +86,17 @@ function App() {
                 GMAT Focus Edition — December 2026 Sprint
               </h1>
             </div>
-            <div className="w-full sm:max-w-xs">
-              <div className="mb-1.5 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-                <span className="font-medium text-slate-600 dark:text-slate-300">Course progress</span>
-                <span>
-                  {overallPct}% · {totals.done}/{totals.total}
-                </span>
+            <div className="flex w-full items-center gap-4 sm:w-auto">
+              <div className="min-w-0 flex-1 sm:w-48">
+                <div className="mb-1.5 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
+                  <span className="font-medium text-slate-600 dark:text-slate-300">Course progress</span>
+                  <span>
+                    {overallPct}% · {totals.done}/{totals.total}
+                  </span>
+                </div>
+                <ProgressBar pct={overallPct} />
               </div>
-              <ProgressBar pct={overallPct} />
+              <ThemeToggle />
             </div>
           </div>
 
@@ -131,6 +136,7 @@ function App() {
           {/* Always mounted so a running timer survives page switches; shows a mini clock elsewhere. */}
           <Timer active={view === 'timer'} onOpen={() => navigate('timer')} />
           {view === 'remember' && <Remember />}
+          {view === 'flashcards' && <Flashcards key={connected ? 'connected' : 'disconnected'} cards={db.flashcards} connected={connected} />}
           {view === 'error-log' && (
             <ErrorLog
               entries={db.errors}
@@ -147,5 +153,3 @@ function App() {
     </div>
   )
 }
-
-export default App

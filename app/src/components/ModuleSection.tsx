@@ -24,7 +24,7 @@ export function ModuleSection({ module, progress, connected, open, onToggleOpen,
   return (
     <section
       id={module.id}
-      className={`scroll-mt-6 rounded-xl border border-violet-100 bg-white dark:border-white/10 dark:bg-[#1a1730] ${open ? 'p-4 sm:p-6' : 'px-4 py-3.5 sm:px-6'}`}
+      className={`scroll-mt-6 rounded-xl border border-outline bg-surface dark:border-white/10 dark:bg-[#1a1730] ${open ? 'p-4 sm:p-6' : 'px-4 py-3.5 sm:px-6'}`}
     >
       <button
         onClick={onToggleOpen}
@@ -50,7 +50,7 @@ export function ModuleSection({ module, progress, connected, open, onToggleOpen,
             </span>
           </span>
         </span>
-        <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-slate-500 dark:text-slate-400">
+        <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-slate-600 dark:text-slate-400">
           {module.dates}
           {!open &&
             (pct >= 100 ? (
@@ -67,7 +67,7 @@ export function ModuleSection({ module, progress, connected, open, onToggleOpen,
 
       {open && (
         <>
-          <p className="mb-4 mt-1 text-sm text-slate-500 dark:text-slate-400">{module.blurb}</p>
+          <p className="mb-4 mt-1 text-sm text-slate-600 dark:text-slate-400">{module.blurb}</p>
           <div className="mb-4">
             <ProgressBar pct={pct} />
           </div>
