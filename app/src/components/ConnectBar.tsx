@@ -31,7 +31,7 @@ export function ConnectBar({ status, fileName, onConnectExisting, onConnectNew, 
         </span>
         <button
           onClick={onDisconnect}
-          className="inline-flex min-h-10 items-center gap-1.5 rounded-lg sm:min-h-0 border border-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-500 hover:bg-slate-50 dark:border-white/15 dark:text-slate-400 dark:hover:bg-white/5"
+          className="inline-flex min-h-10 items-center gap-1.5 rounded-lg sm:min-h-0 border border-outline px-2.5 py-1 text-xs font-semibold text-slate-500 hover:bg-surface-muted dark:border-white/15 dark:text-slate-400 dark:hover:bg-white/5"
         >
           <Unlink className="h-3.5 w-3.5" strokeWidth={2} /> Switch file
         </button>
@@ -70,7 +70,7 @@ export function ConnectBar({ status, fileName, onConnectExisting, onConnectNew, 
         <button
           onClick={onConnectExisting}
           disabled={status === 'connecting'}
-          className="inline-flex min-h-10 items-center gap-1.5 rounded-lg sm:min-h-0 border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-50 dark:border-white/15 dark:text-slate-300 dark:hover:bg-white/5"
+          className="inline-flex min-h-10 items-center gap-1.5 rounded-lg sm:min-h-0 border border-outline px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-surface-muted disabled:opacity-50 dark:border-white/15 dark:text-slate-300 dark:hover:bg-white/5"
         >
           <FolderOpen className="h-3.5 w-3.5" strokeWidth={2} /> Existing file
         </button>

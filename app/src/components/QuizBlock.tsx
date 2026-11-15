@@ -49,11 +49,11 @@ export function QuizBlock({ quiz, saved, disabled, onComplete }: Props) {
   }
 
   return (
-    <div className="mt-6 border-t border-dashed border-slate-200 pt-5 dark:border-white/10">
+    <div className="mt-6 border-t border-dashed border-outline pt-5 dark:border-white/10">
       <h3 className="flex items-center gap-1.5 text-sm font-semibold text-slate-800 dark:text-slate-100">
         <FlaskConical className="h-4 w-4 text-violet-500 dark:text-violet-400" strokeWidth={2} /> Checkpoint Quiz — {quiz.title}
       </h3>
-      <p className="mb-4 text-xs text-slate-500 dark:text-slate-400">
+      <p className="mb-4 text-xs text-slate-600 dark:text-slate-400">
         {quiz.questions.length} questions · pass at {quiz.pass}/{quiz.questions.length}
       </p>
 
@@ -102,7 +102,7 @@ export function QuizBlock({ quiz, saved, disabled, onComplete }: Props) {
         {submitted && (
           <button
             onClick={retake}
-            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 dark:border-white/15 dark:text-slate-300 dark:hover:bg-white/5"
+            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-surface-muted dark:border-white/15 dark:text-slate-300 dark:hover:bg-white/5"
           >
             Retake
           </button>

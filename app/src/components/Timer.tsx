@@ -209,10 +209,10 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
   const slowest = laps.length ? Math.max(...laps) : 0
 
   return (
-    <section className="rounded-xl border border-violet-100 bg-white p-4 sm:p-6 dark:border-white/10 dark:bg-[#1a1730]">
+    <section className="rounded-xl border border-outline bg-surface p-4 sm:p-6 dark:border-white/10 dark:bg-[#1a1730]">
       <div className="text-xs font-semibold uppercase tracking-wide text-violet-600 dark:text-violet-400">Timer</div>
       <h2 className="font-display mt-0.5 text-xl font-medium text-slate-900 dark:text-white">Pace every question</h2>
-      <p className="text-sm text-slate-500 dark:text-slate-400">
+      <p className="text-sm text-slate-600 dark:text-slate-400">
         Hit <kbd className="rounded border border-slate-300 px-1 text-xs dark:border-white/20">Space</kbd> each time you
         answer, <kbd className="rounded border border-slate-300 px-1 text-xs dark:border-white/20">P</kbd> to pause. It
         keeps running if you switch pages.
@@ -226,20 +226,20 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
             className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
               preset.id === p.id
                 ? 'bg-violet-600 text-white dark:bg-violet-500'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10'
+                : 'bg-surface-muted text-slate-600 hover:bg-slate-200 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10'
             }`}
           >
             {p.label} <span className="opacity-70">{p.questions}Q · {p.minutes}m</span>
           </button>
         ))}
-        <span className="inline-flex max-w-full flex-wrap items-center gap-1 rounded-lg bg-slate-100 py-1 pl-3 pr-1 text-xs text-slate-600 dark:bg-white/5 dark:text-slate-300">
+        <span className="inline-flex max-w-full flex-wrap items-center gap-1 rounded-lg bg-surface-muted py-1 pl-3 pr-1 text-xs text-slate-600 dark:bg-white/5 dark:text-slate-300">
           Custom
           <input
             type="number"
             min={1}
             value={custom.questions}
             onChange={(e) => setCustom((c) => ({ ...c, questions: Number(e.target.value) }))}
-            className="w-12 rounded border border-slate-200 bg-white px-1 text-center dark:border-white/15 dark:bg-white/5"
+            className="w-12 rounded border border-outline bg-surface px-1 text-center dark:border-white/15 dark:bg-white/5"
             aria-label="Custom number of questions"
           />
           Q
@@ -248,7 +248,7 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
             min={1}
             value={custom.minutes}
             onChange={(e) => setCustom((c) => ({ ...c, minutes: Number(e.target.value) }))}
-            className="w-12 rounded border border-slate-200 bg-white px-1 text-center dark:border-white/15 dark:bg-white/5"
+            className="w-12 rounded border border-outline bg-surface px-1 text-center dark:border-white/15 dark:bg-white/5"
             aria-label="Custom minutes"
           />
           m
@@ -267,7 +267,7 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
 
       <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div className="flex min-w-0 flex-col items-center text-center">
-          <div className="text-xs font-medium uppercase tracking-wide text-slate-400">Section · time left</div>
+          <div className="text-xs font-medium uppercase tracking-wide text-slate-500">Section · time left</div>
           <ClockFace
             fraction={elapsed / total}
             tone={remaining <= 0 ? 'bad' : remaining < 300 ? 'warn' : started ? 'ok' : 'idle'}
@@ -280,7 +280,7 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
           >
             {fmt(remaining)}
           </div>
-          <div className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+          <div className="mt-2 text-sm text-slate-600 dark:text-slate-400">
             {finished
               ? remaining <= 0
                 ? `Time. ${laps.length} of ${preset.questions} answered — on the real test, never leave blanks.`
@@ -294,7 +294,7 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
         </div>
 
         <div className="flex min-w-0 flex-col items-center text-center">
-          <div className="text-xs font-medium uppercase tracking-wide text-slate-400">
+          <div className="text-xs font-medium uppercase tracking-wide text-slate-500">
             Question {Math.min(laps.length + 1, preset.questions)} of {preset.questions}
           </div>
           <ClockFace
@@ -309,7 +309,7 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
           <div className="font-display text-4xl font-light leading-none sm:text-5xl tabular-nums text-slate-900 dark:text-white">
             {fmt(finished ? 0 : onQuestion)}
           </div>
-          <div className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+          <div className="mt-2 text-sm text-slate-600 dark:text-slate-400">
             {qState === 'cap' && !finished ? (
               <strong className="text-rose-700 dark:text-rose-400">3 min — bookmark, best guess, move on</strong>
             ) : qState === 'slow' && !finished ? (
@@ -338,13 +338,13 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
         <button
           onClick={next}
           disabled={!ticking}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-40 dark:border-white/15 dark:text-slate-200 dark:hover:bg-white/5"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-outline px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-surface-muted disabled:opacity-40 dark:border-white/15 dark:text-slate-200 dark:hover:bg-white/5"
         >
           <SkipForward className="h-4 w-4" strokeWidth={2} /> Next question
         </button>
         <button
           onClick={reset}
-          className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-white/5"
+          className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-white/5"
         >
           <RotateCcw className="h-4 w-4" strokeWidth={2} /> Reset
         </button>
@@ -352,7 +352,7 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
 
       {laps.length > 0 && (
         <div className="mt-6">
-          <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+          <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
             Per question <span className="font-normal normal-case">— log the red ones as timing errors</span>
           </div>
           <div className="flex flex-wrap gap-1.5">
@@ -365,7 +365,7 @@ export function Timer({ active, onOpen }: { active: boolean; onOpen: () => void 
                     ? 'bg-rose-50 font-semibold text-rose-700 dark:bg-rose-500/10 dark:text-rose-400'
                     : s >= target
                       ? 'bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400'
-                      : 'bg-slate-100 text-slate-600 dark:bg-white/5 dark:text-slate-300'
+                      : 'bg-surface-muted text-slate-600 dark:bg-white/5 dark:text-slate-300'
                 }`}
               >
                 Q{i + 1} {fmt(s)}

@@ -29,12 +29,12 @@ export function DueRedos({ entries, connected, onUpdate }: Props) {
   if (due.length === 0) return null
 
   return (
-    <section className="rounded-xl border border-violet-200 bg-white p-4 sm:p-5 dark:border-violet-500/30 dark:bg-[#1a1730]">
+    <section className="rounded-xl border border-violet-200 bg-surface p-4 sm:p-5 dark:border-violet-500/30 dark:bg-[#1a1730]">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h2 className="font-display text-lg font-medium text-slate-900 dark:text-white">
           Redo today <span className="tabular-nums text-violet-600 dark:text-violet-400">{due.length}</span>
         </h2>
-        <span className="text-xs text-slate-500 dark:text-slate-400">Solve each one cold, no notes</span>
+        <span className="text-xs text-slate-600 dark:text-slate-400">Solve each one cold, no notes</span>
       </div>
       <ul className="mt-3 divide-y divide-slate-100 dark:divide-white/5">
         {due.map((e) => (
@@ -46,7 +46,7 @@ export function DueRedos({ entries, connected, onUpdate }: Props) {
                   <span className="ml-2 text-xs font-normal text-rose-600 dark:text-rose-400">overdue</span>
                 )}
               </div>
-              <div className="text-xs text-slate-500 dark:text-slate-400">
+              <div className="text-xs text-slate-600 dark:text-slate-400">
                 {e.section} · {e.topic} · {e.reason}
                 {isSecondPass(e) && ' · final check'}
               </div>
@@ -77,7 +77,7 @@ export function DueRedos({ entries, connected, onUpdate }: Props) {
           </li>
         ))}
       </ul>
-      <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">
+      <p className="mt-2 text-xs text-slate-500 dark:text-slate-500">
         Got it → comes back once more in {SECOND_REDO_DAYS} days, then it's retired. Missed again → back in {FIRST_REDO_DAYS} days.
       </p>
     </section>
